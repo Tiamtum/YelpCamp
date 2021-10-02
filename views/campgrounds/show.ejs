@@ -90,8 +90,8 @@
                 <% if(review.author){ %> 
                 <h5 class="card-title d-flex align-items-center">
 
-                        <div class="profilePicture"><a href="/profile/<%=review.author._id%>"><img src="<%=profileImages[idx]%>" alt="<%=review.author.username%>'s profile image"class="img-fluid rounded-circle border border-light border-1  d-block mx-auto" ></a></div>
-                        <a class="mx-2 mb-4 noDecor" href="/profile/<%=review.author._id%>"><%= review.author.username%></a>
+                    <div class="profilePicture"><a href="/profile/<%=review.author._id%>"><img src="<%=profileImages[idx]%>" alt="<%=review.author.username%>'s profile image"class="img-fluid rounded-circle border border-light border-1  d-block mx-auto" ></a></div>
+                    <a class="mx-2 mb-4 noDecor" href="/profile/<%=review.author._id%>"><%= review.author.username%></a>
 
                 </h5>
                 <% }else{ %>

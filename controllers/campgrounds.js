@@ -71,13 +71,22 @@ module.exports.showCampground = async (req,res)=>{
     .populate("author"); //campground author
     if(campground)
     {
+        try{
         const profileImages=[];
         for(review of campground.reviews)
         {
-           const user = await User.findById(review.author._id);
-           profileImages.push(user.profileImage.reviewPic);
+            if(review.author)
+            {
+                const user = await User.findById(review.author._id)
+                profileImages.push(user.profileImage.reviewPic);
+            }
         }
         res.render("campgrounds/show",{campground,profileImages, pageTitle:`${campground.title}`,loadStarCSS:true});
+        }
+        catch(e)
+        {
+            console.log("showCampground Error: ",e);
+        }
     }
     else
     {
