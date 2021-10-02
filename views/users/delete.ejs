@@ -1,0 +1,24 @@
+<% layout("layouts/boilerplate") -%>
+<div class="row">
+    <h1 class="text-center"> Are you sure you want to delete your account, <%=user.username%>? </h1>
+        <div class="col-6 offset-3">
+            <form class="d-inline" action="/profile/<%=user._id%>?_method=DELETE" method="POST"> 
+                <div class="mb-3">
+                    <p>Once you delete your account, it can <strong>not</strong> be recovered. The following 
+                    is what happens if you click the delete account button:
+                    <ul>
+                        <li>Your account is removed from the database. This includes your username, password, email, and any account details that you provided on your profile page.</li>
+                        <li>Your profile page will no longer exist.</li>
+                        <li>Campgrounds you have created and reviews you have made <strong>will</strong> continue to exist, but your username will be removed from them.</li>
+                    </ul>
+                    <p>If you wish to have campgrounds or reviews that you have made removed, please contact the administrator.</p>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-danger">Delete Account</button>
+                    <a class="card-link btn btn-secondary" href="/profile/<%=user._id%>">Back To Profile</a>
+                </div>
+            </form>
+        </div>
+    
+</div>
+

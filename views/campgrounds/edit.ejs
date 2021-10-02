@@ -1,0 +1,91 @@
+<% layout("layouts/boilerplate") -%>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css' rel='stylesheet' />
+<link rel="stylesheet" href="/stylesheets/app.css">
+<form action="/campgrounds/<%=campground._id%>?_method=PUT" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+<div class="row">
+        <h1 class="text-center lead fs-1 "> Edit Campground </h1>
+            <div class="col-6">
+                    <div class="input-group mb-3">
+                        <label class="form-label" for="title"></label>
+                        <span class="input-group-text" >Title</span>
+                        <input class="form-control" type="text" name="campground[title]" id="title" value="<%=campground.title%>" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="form-label" for="price"></label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="price-label">Price (CAD)</span>
+                            <input type="text" class="form-control" id="price" name="campground[price]" placeholder="0.00" aria-describedby="price-label" value="<%=campground.price%>" required>
+                        </div>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="form-label" for="description"></label>
+                        <span class="input-group-text" >Description</span>
+                        <textarea class="form-control" type="text" name="campground[description]" id="description" required><%=campground.description%></textarea>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Add more images</label>
+                        <input type="file" name="image" id="image" class="form-control" multiple>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <% campground.images.forEach(function(image,idx){ %>
+                            <img src="<%=image.thumbnail%>" class="img-thumbnail" alt="">
+                            <div class="form-check-inline">
+                                <input type="checkbox" name="deleteImages[]" value="<%=image.filename%>" id=image-<%=idx%>">
+                            </div>
+                            <label for="image-<%=idx%>">Delete?</label>
+                        <% }) %> 
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-info" id="updateCampground">Update Campground</button>
+                        <a class="card-link btn btn-secondary" href="/campgrounds/<%=campground._id%>">Back To Campground</a>
+                    </div>
+                </form>
+            </div>
+            <div class="col-6 mt-2">
+                <div id="map"></div>
+                <div class="input-group mt-3">
+                    <label class="form-label" for="location"></label>
+                    <span class="input-group-text" >Location</span>
+                    <input class="form-control" type="text" name="campground[location]" id="location" value="<%=campground.location%>" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="input-group mt-3">
+                    <label class="form-label" for="latlong"></label>
+                    <span class="input-group-text" >Latitude, Longitude</span>
+                    <input class="form-control" type="text" name="campground[latLong]" id="latLong" value="<%=campground.latLong%>" disabled required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="manualLatLong">
+                    <label class="form-check-label" for="manualLatLong">
+                      Set Latitude and Longitude Manually
+                    </label>
+                  </div>
+            </div>
+        
+    </div>
+</form>
+    <script src="/javascripts/validateForms.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
+    <script>
+        const mapToken = "<%- process.env.MAPBOX_TOKEN %>";
+        const latLong =  <%- JSON.stringify(campground.latLong) %>;
+    </script>
+    <script src="/javascripts/clickableMap.js"></script>
+    <script src="/javascripts/addMapMarker.js"></script>

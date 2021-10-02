@@ -1,0 +1,86 @@
+<% layout("layouts/boilerplate") -%>
+<link rel="stylesheet" href="/stylesheets/stars.css">
+<link rel="stylesheet" href="/stylesheets/user.css">
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-3"> 
+            <% if(user.username==="Paul"){ %> 
+                <div class="float-end"><img id="awardStar" src="https://res.cloudinary.com/doq4wcsuk/image/upload/v1630892950/YelpCamp/accountAwardGoldShimmering.gif" alt="This account was the first ever registered account." title="Star awarded for being the first ever registered account!">  </div>             
+            <% } %> 
+            <div class="card-body">
+                <h5 class="card-title"><img src="<%=user.profileImage.thumbnail%>" alt="<%=user.username%>'s profile image"class="img-fluid rounded-circle border border-dark border-1  d-block mx-auto" ></h5>  
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item text-muted">Name <span class="text-dark float-end"><%=user.username%></span> </li>
+                <% if(user.age){ %> 
+                    <li class="list-group-item text-muted">Age <span class="text-dark float-end"><%=user.age%></span> </li>  
+                <% } %> 
+                <% if(user.from){ %> 
+                    <li class="list-group-item text-muted">From <span class="text-dark float-end"><%=user.from%></span> </li>   
+                <% } %>            
+                <% if(user.about){ %> 
+                    <li class="list-group-item text-muted">About 
+                        <p class="text-dark"><%=user.about%></p>
+                    </li>
+                <% } %> 
+            </ul>
+            <%  if( currentUser && user._id.equals(currentUser._id))  {%>
+                <div class="card-body">
+                    <% if(!user.age || !user.from || !user.about){ %>
+                        <a class="card-link btn btn-info" href="/profile/<%=user._id%>/edit">Add Details</a>
+                    <% }else{ %>
+                        <a class="card-link btn btn-info" href="/profile/<%=user._id%>/edit">Edit Details</a>                        
+                    <% } %> 
+                    <a class="card-link btn btn-danger" href="/profile/<%=user._id%>/delete">Delete Account</a>
+                </div>
+                <% } %>
+        </div>
+        <div class="card-footer text-muted">
+            <p class="mb-0"><strong>User Registered</strong> <span class="float-end"><%=user.createdAt.toDateString()%></span></p>
+            <p class="mb-0"><strong>Last Updated</strong> <span class="float-end"><%=user.updatedAt.toDateString()%></span> </p>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-body">
+                <%if(currentUser && user._id.equals(currentUser._id)){%>
+                    <h4 class="card-title lead fs-4">Your Reviews</h4>
+                <% }else{ %> 
+                    <h4 class="card-title lead fs-4">Reviews By This User</h4>
+                <% } %> 
+            </div>
+            <ul class="list-group list-group-flush">
+                <% for(review of reviews){ %>
+                    <li class="list-group-item text-muted">
+                        <div class="d-flex flex-column mb-1">
+                            <div class=""><h5><a href="/campgrounds/<%=review.campground._id%>"><%=review.campground.title%></a></h5></div>
+                            <div class="py-2"><div class="starability-result" data-rating="<%=review.rating%>">Rated:<%= review.rating %> stars </div></div>
+                            <div class=" text-muted"><%=review.body%></div>
+                            </div>
+                        </li>
+                <% } %> 
+
+            </ul>
+            <div class="card-body">
+                <%if(currentUser && user._id.equals(currentUser._id)){%>
+                    <h4 class="card-title lead fs-4">Your Campgrounds</h4>
+                <% }else{ %> 
+                    <h4 class="card-title lead fs-4">Campgrounds Created By This User</h4>
+                <% } %> 
+            </div>
+            <ul class="list-group list-group-flush">
+                <% for(campground of campgrounds){ %>
+                    <%if(campground.author.equals(user._id)){%>
+                        <li class="list-group-item"><a href="/campgrounds/<%=campground._id%>"><%=campground.title%></a></li> 
+                    <% } %>                     
+                <% } %>       
+            </ul>
+        </div>        
+    </div>
+</div>
+<% if(user.username==="Paul"){ %> 
+    <script src="/javascripts/star.js"></script>
+<% } %>
+
+
+

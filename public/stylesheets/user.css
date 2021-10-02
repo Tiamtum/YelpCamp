@@ -1,0 +1,7 @@
+#awardStar{
+    transition: all 1s linear;
+    margin:5px;
+    max-width: 100px;
+    max-height: 93px;
+    float:right;
+}

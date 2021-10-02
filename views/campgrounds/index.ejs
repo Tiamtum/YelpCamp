@@ -1,0 +1,55 @@
+<% layout("layouts/boilerplate") -%>
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
+<link rel="stylesheet" href="/stylesheets/app.css">
+<link rel="stylesheet" href="/stylesheets/atags.css">
+<header>
+<div>
+    <h1 class="mb-3 pb-4 lead fs-1 text-center">All Campgrounds</h1>
+</div>
+</header>
+<div id="cluster-map"></div>
+<%if(!currentUser){%>
+<h2 class="my-3 lead fs-2 text-center">Don't see your favorite spot?</h2>
+<p class="text-center">Consider <a href="/register" class="noDecor">signing up</a> for <strong>free</strong> and adding it to our collection!</p>
+<% }else{ %>
+    <div class="d-flex justify-content-center my-3"><a class="btn btn-secondary mb-2 text" href="/campgrounds/new">Add New Campground</a></div>    
+<% } %> 
+
+<%campgrounds.forEach((campground,idx)=>{%>
+    <div class="card mb-3">
+        <div class="row">
+            <div class="col-md-4 d-flex justify-content-center">
+                <img class="img-fluid" alt="" src="<%=campground.images[0].thumbnail%>">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h3 class="card-title"><%=campground.title%></h3>
+                    <p class="card-text">
+                    <% for(let i = 0 ; i<descriptions[idx].length; i++){ %> 
+                        <% if(i===descriptions[idx].length-1){ %>  
+                            <%=descriptions[idx][i]%><br>
+                            <% if(descriptions[idx].length>10){ %>
+                                <span fs-2> . . . (<a class="noDecor" href="/campgrounds/<%=campground._id%>">See the full description</a>)</p>   
+                            <% } %> 
+                        <% }else{ %> 
+                            <%=descriptions[idx][i]%>
+                        <% } %> 
+                    <% } %> 
+                    </p>
+                    <p class="card-text">
+                        <small class="text-muted"><%=campground.location%></small>
+                    </p>
+                    <a href="/campgrounds/<%=campground._id%>" class="btn btn-primary">View <%=campground.title%></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% }) %> 
+
+
+<script>
+    const mapToken = "<%- process.env.MAPBOX_TOKEN %>";
+    const campgrounds = { features: <%- JSON.stringify(campgrounds) %> };
+</script>
+<script src="/javascripts/clusterMap.js"></script> 
